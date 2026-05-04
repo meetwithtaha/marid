@@ -117,3 +117,14 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+    gradle.projectsEvaluated {
+    // Collect all tasks named generateCodegenArtifactsFromSchema across subprojects.
+    def codegenTasks = []
+    ([project] + rootProject.subprojects).each { subproject ->
+        def task = subproject.tasks.findByName("generateCodegenArtifactsFromSchema")
+            if (task != null) {
+            codegenTasks << task
+            }
+        }
+    }
