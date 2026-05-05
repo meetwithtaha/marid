@@ -29,6 +29,7 @@ import { SvgUri } from 'react-native-svg';
 
 const MyCart = ({ navigation }: any) => {
   const [myCart, setCart] = useState([]);
+  const [collapse, setCollapse] = useState(false)
   const [sections, setSections] = useState([
     {
       id: '1',
@@ -124,6 +125,33 @@ const MyCart = ({ navigation }: any) => {
                 shadowBlur={5}
                 // key={section.id}
               >
+                {/* Section Header */}
+                <TouchableOpacity
+                  // onPress={() => toggleSection(section.id)}
+                  onPress={() => setCollapse(!collapse)}
+                  style={styles.listHeader}
+                >
+                  <View>
+                    <TextView
+                      style={styles.listHeaderText}
+                      text={'Events'}
+                    />
+                    <TextView style={styles.listDescText} text={'(Events Branding & Promotional Item)'} />
+                  </View>
+
+                  <Image
+                    source={images.rightArrw}
+                    style={[
+                      commonStyles.image2,
+                      {
+                        transform: [
+                          { rotate: collapse ? '90deg' : '0deg' }, // right → down
+                        ],
+                      },
+                    ]}
+                  />
+                </TouchableOpacity>
+
                 <Pressable
                   key={item?.id}
                   onPress={() => navigation.navigate('ItemDetail', item?.item)}
@@ -143,7 +171,7 @@ const MyCart = ({ navigation }: any) => {
                       <Text style={[styles.title, { maxWidth: 100 }]}>
                         {item?.item?.name}
                       </Text>
-                      <TextView text={item.desc} style={styles.description} />
+                      <TextView text={'Quantity x' + item?.quantity} style={styles.description} />
                     </View>
                     <View style={[commonStyles.rowJustified]}>
                       <View style={styles.counterContainer}>
@@ -377,7 +405,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderTopColor: 'rgba(0, 0, 0, 0.1)',
-    // borderTopWidth: 1,
+    borderTopWidth: 1,
     paddingTop: widgetPadding,
     height: 120,
     paddingVertical: widgetPadding,
@@ -389,7 +417,7 @@ const styles = StyleSheet.create({
   },
   itemImage: {
     width: 120,
-    height: 120,
+    height: 80,
     borderRadius: 5,
   },
   desc: {
